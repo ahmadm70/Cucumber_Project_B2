@@ -1,7 +1,6 @@
 package com.loop.step_definitions;
 
 import com.loop.pages.GoogleSearchPage;
-import com.loop.utilities.BrowserUtilities;
 import com.loop.utilities.ConfigurationReader;
 import com.loop.utilities.Driver;
 import io.cucumber.java.en.*;
@@ -13,7 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
-public class GoogleSearchStepDefinitions {
+public class GoogleSearch {
     GoogleSearchPage googleSearchPage;
     WebDriverWait wait;
     @Given("user is on Google Search page")
