@@ -10,7 +10,7 @@ Feature: Docuport Login/Logout Feature
     And user clicks to login button
     Then user should see the home page for advisor
 
-  @regression @closed @wip @smoke @client
+  @regression @closed @smoke @client
   Scenario: Login as an client
     When user enters username for client
     And user enters password for client

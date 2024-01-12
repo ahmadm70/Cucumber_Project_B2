@@ -1,5 +1,6 @@
 package com.loop.step_definitions;
 
+import com.loop.utilities.BrowserUtilities;
 import com.loop.utilities.Driver;
 import io.cucumber.java.*;
 import org.openqa.selenium.OutputType;
@@ -7,8 +8,9 @@ import org.openqa.selenium.TakesScreenshot;
 
 public class Hooks {
     @Before
-    public void setUp() {
+    public void setUp(Scenario scenario) {
         Driver.getDriver();
+        BrowserUtilities.myScenario = scenario;
     }
     @After
     public void tearDown(Scenario scenario) {

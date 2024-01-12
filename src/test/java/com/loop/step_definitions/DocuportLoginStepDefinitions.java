@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class LoginStepDefinitions {
+public class DocuportLoginStepDefinitions {
     DocuportLoginPage docuportLoginPage;
     DocuportHomePage docuportHomePage;
     WebDriverWait webDriverWait;
