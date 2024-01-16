@@ -30,3 +30,10 @@ Feature: Docuport Login/Logout Feature
     And user enters password for supervisor
     And user clicks to login button
     Then user should see the home page for supervisor
+
+  @smoke @dataTableMap
+  Scenario: Login as  a client (map practice)
+    When user enters credentials
+      | username | b1g2_client@gmail.com |
+      | password | Group2                |
+    Then user should see the home page for client

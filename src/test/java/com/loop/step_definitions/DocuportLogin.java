@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Map;
 
 public class DocuportLogin {
     DocuportLoginPage docuportLoginPage;
@@ -76,5 +77,13 @@ public class DocuportLogin {
     @Then("user should see the home page for supervisor")
     public void user_should_see_the_home_page_for_supervisor() {
         Assert.assertTrue("You couldn't log in as an SUPERVISOR!", docuportHomePage.homeButton.isDisplayed());
+    }
+    @When("user enters credentials")
+    public void user_enters_credentials(Map<String, String> map) {
+//        for (Map.Entry<String, String> entry : map.entrySet()) {
+//            System.out.println(entry.getKey());
+//            System.out.println(entry.getValue());
+//        }
+        docuportLoginPage.loginDocuport(map.get("username"), map.get("password"));
     }
 }

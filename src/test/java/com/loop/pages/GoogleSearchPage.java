@@ -10,6 +10,8 @@ public class GoogleSearchPage {
     public WebElement searchBar;
     @FindBy(xpath = "//input[@id='gbqfbb']/preceding-sibling::input")
     public WebElement googleSearchButton;
+    @FindBy(xpath = "//a[@class='FLP8od']")
+    public WebElement capitalResult;
     public GoogleSearchPage() {
         PageFactory.initElements(Driver.getDriver(), this);
     }
