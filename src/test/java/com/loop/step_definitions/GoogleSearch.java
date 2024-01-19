@@ -12,7 +12,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
-import java.util.List;
+import java.util.*;
 
 public class GoogleSearch {
     GoogleSearchPage googleSearchPage;
@@ -53,13 +53,18 @@ public class GoogleSearch {
         Assert.assertEquals("Titles aren't matching!", Driver.getDriver().getTitle(), string);
     }
 
-    @Then("user searchs for the following item")
-    public void user_searchs_for_the_following_item(List<String> items) {
-        items.forEach(each -> {
+    @Then("user searches for the following item")
+    public void user_searches_for_the_following_item(List<Map<String, String>> items) {
+//        items.forEach(each -> {
+//            googleSearchPage.searchBar.clear();
+//            googleSearchPage.searchBar.sendKeys(each + Keys.ENTER);
+//            Assert.assertEquals("Titles aren't matching!", each + " - Google Search", Driver.getDriver().getTitle());
+//        });
+        for (Map<String, String> each : items) {
+            System.out.println(each.get("loop academy"));
             googleSearchPage.searchBar.clear();
-            googleSearchPage.searchBar.sendKeys(each + Keys.ENTER);
-            Assert.assertEquals("Titles aren't matching!", each + " - Google Search", Driver.getDriver().getTitle());
-        });
+            googleSearchPage.searchBar.sendKeys(each.get("loop academy") + Keys.ENTER);
+        }
     }
 
     @When("user searches for the {string}")

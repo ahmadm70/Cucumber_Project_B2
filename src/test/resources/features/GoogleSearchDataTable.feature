@@ -1,9 +1,9 @@
 Feature: Passing multiple parameters to the same step
 
-  @smoke
+  @smoke @listOfMap
   Scenario: Searching multiple items
     Given user is on Google Search page
-    Then user searchs for the following item
+    Then user searches for the following item
       | loop academy |
       | java         |
       | selenium     |
