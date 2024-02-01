@@ -1,4 +1,4 @@
-package com.loop.pages;
+package com.loop.practice_pages;
 
 import com.loop.utilities.BrowserUtilities;
 import com.loop.utilities.DocuportConstants;
@@ -8,12 +8,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class DocuportLoginPage extends DocuportBasePage {
+public class DocuportLoginPage {
     @FindBy(xpath = "//h1[contains(.,'Login')]")
     public WebElement loginText;
-    @FindBy(id = "input-14")
+    @FindBy(xpath = "//label[contains(.,'Username or email')]/following-sibling::input")
     public WebElement usernameBar;
-    @FindBy(id = "input-15")
+    @FindBy(xpath = "//label[contains(.,'Password')]/following-sibling::input")
     public WebElement passwordBar;
     @FindBy(xpath = "//button[@type='submit']")
     public WebElement loginButton;
@@ -49,6 +49,11 @@ public class DocuportLoginPage extends DocuportBasePage {
 
     public void logoutDocuport() {
         batch1Group2Button.click();
+        logoutButton.click();
+    }
+
+    public void logoutDocuport(String fullName) {
+        Driver.getDriver().findElement(By.xpath("//span//span[contains(.,'" + fullName + "')]")).click();
         logoutButton.click();
     }
 }

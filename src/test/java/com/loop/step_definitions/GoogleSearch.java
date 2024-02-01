@@ -6,6 +6,8 @@ import com.loop.utilities.ConfigurationReader;
 import com.loop.utilities.DocuportConstants;
 import com.loop.utilities.Driver;
 import io.cucumber.java.en.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,6 +17,7 @@ import java.time.Duration;
 import java.util.*;
 
 public class GoogleSearch {
+    private static final Logger LOG = LogManager.getLogger();
     GoogleSearchPage googleSearchPage;
     WebDriverWait wait;
 
@@ -24,6 +27,7 @@ public class GoogleSearch {
         wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
         Driver.getDriver().get(ConfigurationReader.getProperty("google.url"));
         wait.until(ExpectedConditions.titleIs("Google"));
+        LOG.info(".....User is on Google Search page.....");
     }
 
     @When("user types Loop Academy in the Google Search box and clicks enter")

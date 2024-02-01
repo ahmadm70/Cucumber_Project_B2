@@ -1,6 +1,6 @@
 package com.loop.step_definitions;
 
-import com.loop.pages.DocuportHomePage;
+import com.loop.pages.DocuportClientsPage;
 import com.loop.pages.DocuportLoginPage;
 import com.loop.utilities.ConfigurationReader;
 import com.loop.utilities.DocuportConstants;
@@ -15,12 +15,12 @@ import java.util.Map;
 
 public class DocuportLogin {
     DocuportLoginPage docuportLoginPage;
-    DocuportHomePage docuportHomePage;
+    DocuportClientsPage docuportClientsPage;
     WebDriverWait webDriverWait;
     @Given("user is on Docuport login page")
     public void user_is_on_docuport_login_page() {
         docuportLoginPage = new DocuportLoginPage();
-        docuportHomePage = new DocuportHomePage();
+        docuportClientsPage = new DocuportClientsPage();
         webDriverWait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(DocuportConstants.large));
         Driver.getDriver().get(ConfigurationReader.getProperty("env"));
         webDriverWait.until(ExpectedConditions.elementToBeClickable(docuportLoginPage.loginButton));
@@ -60,23 +60,23 @@ public class DocuportLogin {
     @When("user clicks to login button")
     public void user_clicks_to_login_button() {
         docuportLoginPage.loginButton.click();
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(docuportHomePage.homeButton));
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(docuportClientsPage.uploadButton));
     }
     @Then("user should see the home page for advisor")
     public void user_should_see_the_home_page_for_advisor() {
-        Assert.assertTrue("You couldn't log in as an ADVISOR!", docuportHomePage.leadsButton.isDisplayed());
+        Assert.assertTrue("You couldn't log in as an ADVISOR!", docuportClientsPage.uploadButton.isDisplayed());
     }
     @Then("user should see the home page for client")
     public void user_should_see_the_home_page_for_client() {
-        Assert.assertTrue("You couldn't log in as a CLIENT!", docuportHomePage.popUpForClient.getText().equals("Choose account"));
+        Assert.assertEquals("You couldn't log in as a CLIENT!", "Choose account", docuportClientsPage.continueButton.getText());
     }
     @Then("user should see the home page for employee")
     public void user_should_see_the_home_page_for_employee() {
-        Assert.assertTrue("You couldn't log in as an EMPLOYEE!", docuportHomePage.homeButton.isDisplayed());
+        Assert.assertTrue("You couldn't log in as an EMPLOYEE!", docuportClientsPage.uploadButton.isDisplayed());
     }
     @Then("user should see the home page for supervisor")
     public void user_should_see_the_home_page_for_supervisor() {
-        Assert.assertTrue("You couldn't log in as an SUPERVISOR!", docuportHomePage.homeButton.isDisplayed());
+        Assert.assertTrue("You couldn't log in as an SUPERVISOR!", docuportClientsPage.uploadButton.isDisplayed());
     }
     @When("user enters credentials")
     public void user_enters_credentials(Map<String, String> map) {

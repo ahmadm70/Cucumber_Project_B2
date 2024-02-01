@@ -12,6 +12,7 @@ public class Hooks {
         Driver.getDriver();
         BrowserUtilities.myScenario = scenario;
     }
+
     @After
     public void tearDown(Scenario scenario) {
         //Only takes screenshot when scenario is failed
