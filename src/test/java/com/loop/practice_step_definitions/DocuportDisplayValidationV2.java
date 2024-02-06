@@ -27,20 +27,24 @@ public class DocuportDisplayValidationV2 {
     public void click_on_left_navigate_items_and_validate_that_items_are_displayed() {
         for (WebElement each : docuportHomePage.leftNavigateItems) {
             switch (each.getText().toLowerCase()) {
-                case "home":
-                case "reconciliations":
+                case "clients":
+                case "invitations":
+                case "users":
+                case "leads":
+                case "bookkeeping":
+                case "1099 form":
+                    each.click();
+                    Assert.assertTrue("Search button for \"" + each.getText() + "\" page isn't displayed!", docuportHomePage.searchButton.isDisplayed());
+                    Assert.assertTrue("Page header button for \"" + each.getText() + "\" page isn't displayed!", docuportHomePage.pageHeader.isDisplayed());
                     break;
                 case "received docs":
                 case "my uploads":
                     each.click();
-                    Assert.assertTrue("Search button for \"" + each + "\" page isn't displayed!", docuportHomePage.searchButton.isDisplayed());
-                    Assert.assertTrue("Download button for \"" + each + "\" page isn't displayed!", docuportHomePage.downloadButton.isDisplayed());
-                    Assert.assertTrue("Page header button for \"" + each + "\" page isn't displayed!", docuportHomePage.pageHeader.isDisplayed());
+                    Assert.assertTrue("Search button for \"" + each.getText() + "\" page isn't displayed!", docuportHomePage.searchButton.isDisplayed());
+                    Assert.assertTrue("Download button for \"" + each.getText() + "\" page isn't displayed!", docuportHomePage.downloadButton.isDisplayed());
+                    Assert.assertTrue("Page header button for \"" + each.getText() + "\" page isn't displayed!", docuportHomePage.pageHeader.isDisplayed());
                     break;
-                default:    //Clients, Invitations, Users, Leads, Bookkeeping, 1099 Form pages don't have "Download" button
-                    each.click();
-                    Assert.assertTrue("Search button for \"" + each + "\" page isn't displayed!", docuportHomePage.searchButton.isDisplayed());
-                    Assert.assertTrue("Page header button for \"" + each + "\" page isn't displayed!", docuportHomePage.pageHeader.isDisplayed());
+                default:    //Home, Reconciliations pages don't have any of validation items
                     break;
             }
         }
