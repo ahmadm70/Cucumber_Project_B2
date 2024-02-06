@@ -5,15 +5,12 @@ import com.loop.practice_pages.DocuportLoginPage;
 import com.loop.utilities.*;
 import io.cucumber.java.en.*;
 import org.junit.Assert;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.*;
 
 public class DocuportClientCreate {
     DocuportLoginPage docuportLoginPage;
     DocuportClientsPage docuportClientsPage;
-    WebDriverWait webDriverWait;
     private String fullName;
     private String email;
     private String password;
@@ -21,7 +18,6 @@ public class DocuportClientCreate {
     public DocuportClientCreate() {
         docuportLoginPage = new DocuportLoginPage();
         docuportClientsPage = new DocuportClientsPage();
-        webDriverWait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(DocuportConstants.large));
     }
 
     @Given("User logs in as an advisor and clicks on the {string} link")

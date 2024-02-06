@@ -1,17 +1,27 @@
 package com.loop.utilities;
 
 import io.cucumber.java.Scenario;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.Duration;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class BrowserUtilities {
+
+    private static final Logger LOG = LogManager.getLogger();
     public static Scenario myScenario;
+
     /**
      *
      */
@@ -24,8 +34,10 @@ public class BrowserUtilities {
             e.printStackTrace();
         }
     }
+
     /**
      * Validates if driver switched to expected URL and title
+     *
      * @param driver
      * @param expectedURL
      * @param expectedTitle
@@ -43,9 +55,11 @@ public class BrowserUtilities {
         }
         Assert.assertTrue(driver.getTitle().toLowerCase().contains(expectedURL));
     }
+
     /**
      * switches to the new window by the exact title
      * return to original window if the window with given title not found
+     *
      * @param driver
      * @param targetTitle
      */
@@ -59,6 +73,7 @@ public class BrowserUtilities {
         }
         driver.switchTo().window(origin);
     }
+
     /**
      * @parameter driver
      * @parameter expectedTitle
@@ -68,8 +83,10 @@ public class BrowserUtilities {
     public static void validateTitle(WebDriver driver, String expectedTitle) {
         Assert.assertTrue(driver.getTitle().contains(expectedTitle));
     }
+
     /**
      * Click any link from loop practice
+     *
      * @parameter nameOfPage
      * @author Ahmad
      */
@@ -78,8 +95,10 @@ public class BrowserUtilities {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(element)).click();
     }
+
     /**
      * Moves the mouse to given element
+     *
      * @parameter element on which to hover
      * @author Ahmad
      */
@@ -87,43 +106,53 @@ public class BrowserUtilities {
         Actions action = new Actions(Driver.getDriver());
         action.moveToElement(element).perform();
     }
+
     /**
      * Scrolls down to an element using JavaScript
+     *
      * @parameter element
      * @author Ahmad
      */
     public static void scrollToElement(WebElement element) {
         ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
     }
+
     /**
      * Clicks on an element using JavaScript
+     *
      * @parameter element
      * @author Ahmad
      */
     public static void clickWithJS(WebElement element) {
         ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].click;", element);
     }
+
     /**
      * Performs double click action on an element
+     *
      * @parameter element
      * @author Ahmad
      */
     public static void doubleClick(WebElement element) {
         new Actions(Driver.getDriver()).doubleClick(element).build().perform();
     }
+
     /**
      * Waits for the provided element to be visible on the page
+     *
+     * @return element
      * @parameter element
      * @parameter timeToWaitInSec
-     * @return element
      * @author Ahmad
      */
     public static WebElement waitForVisibility(WebElement element, int timeToWaitInSec) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeToWaitInSec));
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
+
     /**
      * Waits for the provided element to be visible on the page
+     *
      * @parameter element
      * @parameter timeToWaitInSec
      * @author Ahmad
@@ -132,18 +161,22 @@ public class BrowserUtilities {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeToWaitInSec));
         wait.until(ExpectedConditions.invisibilityOf(element));
     }
+
     /**
      * Waits for the provided element to be clickable
-     * @parameter element
+     *
      * @return element
+     * @parameter element
      * @author Ahmad
      */
     public static WebElement waitForClickable(WebElement element, int timeout) {
         WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeout));
         return wait.until(ExpectedConditions.elementToBeClickable(element));
     }
+
     /**
      * Performs a pause
+     *
      * @parameter seconds
      * @author Ahmad
      */
@@ -152,6 +185,93 @@ public class BrowserUtilities {
             Thread.sleep(seconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param elements
+     * @return
+     */
+    public static List<String> getElementsText(List<WebElement> elements) {
+        List<String> elementsText = new ArrayList<>();
+        for (WebElement element : elements) {
+            elementsText.add(element.getText());
+        }
+        return elementsText;
+    }
+
+    public static List<String> getElementsTextWithStream(List<WebElement> elements) {
+        return elements.stream()
+                .map(x -> x.getText())
+                .collect(Collectors.toList());
+    }
+
+    public static List<String> getElementsTextWithStream2(List<WebElement> elements) {
+        return elements.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    public static void waitForPageToLoad(long timeOutInSeconds) {
+        ExpectedCondition<Boolean> expectation = new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
+            }
+        };
+        try {
+            LOG.info("Waiting for page to load...");
+            WebDriverWait wait = new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(timeOutInSeconds));
+            wait.until(expectation);
+        } catch (Throwable error) {
+            LOG.info(
+                    "Timeout waiting for Page Load Request to complete after " + timeOutInSeconds + " seconds");
+        }
+    }
+
+    public static void waitForStaleElement(WebElement element) {
+        int y = 0;
+        while (y <= 15) {
+            try {
+                element.isDisplayed();
+                break;
+            } catch (StaleElementReferenceException st) {
+                y++;
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } catch (WebDriverException we) {
+                y++;
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static void createFileWithContent(String filePath, String content) {
+        File file = new File(filePath);
+
+        try {
+            file.createNewFile();
+            FileWriter fw = new FileWriter(file);
+            try {
+                fw.write(content);
+            } catch (Exception e) {
+                LOG.debug("Error during FileWriter append. " + e.getMessage(), e.getCause());
+            } finally {
+                try {
+                    fw.close();
+                } catch (Exception e) {
+                    LOG.debug("Error during FileWriter close. " + e.getMessage(), e.getCause());
+                }
+            }
+
+        } catch (IOException e) {
+            LOG.debug(e.getMessage(), e.getCause());
         }
     }
 }

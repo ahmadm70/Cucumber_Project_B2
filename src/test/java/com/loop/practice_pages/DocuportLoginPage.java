@@ -9,8 +9,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class DocuportLoginPage {
-    @FindBy(xpath = "//h1[contains(.,'Login')]")
-    public WebElement loginText;
     @FindBy(xpath = "//label[contains(.,'Username or email')]/following-sibling::input")
     public WebElement usernameBar;
     @FindBy(xpath = "//label[contains(.,'Password')]/following-sibling::input")
@@ -27,23 +25,32 @@ public class DocuportLoginPage {
     public DocuportLoginPage() {
         PageFactory.initElements(Driver.getDriver(), this);
     }
-
-    /**
-     * Logins to Docuport
-     *
-     * @param username
-     * @param password
-     * @author Ahmad
-     */
     public void loginDocuport(String username, String password) {
-        BrowserUtilities.waitForVisibility(usernameBar, DocuportConstants.small);
+        BrowserUtilities.waitForClickable(loginButton, DocuportConstants.small);
         usernameBar.clear();
         usernameBar.sendKeys(username);
         passwordBar.clear();
         passwordBar.sendKeys(password);
         loginButton.click();
-        if (continueButton.isDisplayed()) {
-            continueButton.click();
+    }
+
+    public void loginDocuport(String userType) {
+        switch (userType.toLowerCase()) {
+            case "advisor":
+                loginDocuport(DocuportConstants.USERNAME_FOR_ADVISOR, DocuportConstants.PASSWORD_FOR_LOGIN);
+                break;
+            case "client":
+                loginDocuport(DocuportConstants.USERNAME_FOR_CLIENT, DocuportConstants.PASSWORD_FOR_LOGIN);
+                BrowserUtilities.waitForClickable(continueButton, DocuportConstants.large);
+                continueButton.click();
+                BrowserUtilities.justWait(2000);
+                break;
+            case "employee":
+                loginDocuport(DocuportConstants.USERNAME_FOR_EMPLOYEE, DocuportConstants.PASSWORD_FOR_LOGIN);
+                break;
+            case "supervisor":
+                loginDocuport(DocuportConstants.USERNAME_FOR_SUPERVISOR, DocuportConstants.PASSWORD_FOR_LOGIN);
+                break;
         }
     }
 

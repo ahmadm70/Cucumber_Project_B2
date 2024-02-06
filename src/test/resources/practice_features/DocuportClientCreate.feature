@@ -1,6 +1,6 @@
 Feature: Client Management
 
-  @wip
+  @smoke
   Scenario: Creating personal client
     Given User logs in as an advisor and clicks on the "Clients" link
     When User creates a new "personal" client with the following data:
@@ -15,7 +15,7 @@ Feature: Client Management
     And User validates the new "personal" client and logs out as an advisor
     Then Users should be able to log in as the new "personal" client
 
-  @wip
+  @smoke
   Scenario: Creating business client
     Given User logs in as an advisor and clicks on the "Clients" link
     When User creates a new "business" client with the following data:
