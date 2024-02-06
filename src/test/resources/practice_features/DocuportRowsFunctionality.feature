@@ -1,6 +1,6 @@
 Feature: Validate default and updated rows per page
 
-  @wip
+  @smoke
   Scenario Outline: Validate rows per page as an advisor
     Given user logs in as an "advisor"
     When user clicks to "<navigate item>"
@@ -10,6 +10,6 @@ Feature: Validate default and updated rows per page
     Examples:
       | navigate item | rows by default | change rows to | rows after change |
       | Clients       | 10              | 5              | 5                 |
-      | User          | 10              | 5              | 5                 |
+      | Users         | 10              | 5              | 5                 |
       | Leads         | 10              | 5              | 5                 |
       | Bookkeeping   | 10              | 5              | 5                 |
